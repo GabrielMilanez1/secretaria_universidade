@@ -5,6 +5,7 @@ require_once '../header.php';
 require_once '../class/Cargo.php';
 require_once '../class/Relatorio.php';
 require_once '../class/Utilidades.php';
+require_once '../class/Turma.php';
 
 if (!$admin) {
   header('location: /');
@@ -24,6 +25,8 @@ $parametros = $_GET;
 unset($parametros['pagina']);
 
 $query_string = http_build_query($parametros);
+
+$objturma = new Turma();
 
 ?>
 
@@ -90,6 +93,7 @@ $query_string = http_build_query($parametros);
                 <tr>
                 <th scope="col">Nome</th>
                 <th scope="col">Descrição</th>
+                <th scope="col">Alunos matriculados</th>
                 <th scope="col">Editar</th>
                 </tr>
             </thead>
@@ -98,6 +102,7 @@ $query_string = http_build_query($parametros);
                 <tr>
                     <td><?= htmlspecialchars($turma['nome']); ?></td>
                     <td><?= htmlspecialchars($turma['descricao']); ?></td>
+                    <td><?= count($objturma->getUsuariosAssociados($turma['id'])) ?></td>
                     <td><a href="/editar-turma?u=<?= $turma['id']?>"><i class="fa fa-edit"></i></a></td>
                 </tr>
                 <?php endforeach; ?>

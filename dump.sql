@@ -45,3 +45,13 @@ CREATE TABLE tb_turmas (
     PRIMARY KEY (id)
 );
 /* ---------------- */
+
+/* Pra criar a tabela de relação entre usuario e turmas */
+CREATE TABLE tb_rel_usuario_turma (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_turma INT NOT NULL,
+    associado_por INT NOT NULL,
+    UNIQUE KEY uk_usuario_turma (id_usuario, id_turma)
+);
+/* ---------------- */

@@ -2,6 +2,8 @@
 
 require_once 'MysqliClass.php';
 require_once 'Validators.php';
+require_once 'RelUsuarioTurma.php';
+
 
 class Turma
 {
@@ -16,6 +18,43 @@ class Turma
     public function getNomeTabela()
     {
         return $this->tabela;
+    }
+
+    public function getUsuariosAssociados($id_turma)
+    {
+        $objturmasassociadas = new RelUsuarioTurma();
+        
+        $db = new MysqliClass();
+
+        $tabela = $objturmasassociadas->getNomeTabela();
+
+        $query = <<<SQL
+            SELECT * FROM `$tabela` WHERE `id_turma` = $id_turma GROUP BY `id_usuario`
+        SQL;
+
+        $usuario_associados = $db->getResultsQuery($query);
+        if (count($usuario_associados) <= 0) {
+            return [];
+        }
+
+        return $usuario_associados;
+    }
+
+    public function getTurmas()
+    {
+        $db = new MysqliClass();
+        $tabela = $this->tabela;
+
+        $query = <<<SQL
+            SELECT * FROM `$tabela` ORDER BY `nome`
+        SQL;
+
+        $turmas = $db->getResultsQuery($query);
+        if (count($turmas) <= 0) {
+            return [];
+        }
+
+        return $turmas;
     }
 
     public function editar($id_turma, array $parametros)
@@ -117,7 +156,7 @@ class Turma
     {
         $db = new MysqliClass();
         $query = <<<SQL
-            SELECT * FROM `$this->tabela` WHERE `id` = '$id'
+            SELECT * FROM `$this->tabela` WHERE `id` = '$id' LIMIT 1    
         SQL;
 
         $usuario = $db->getResultsQuery($query);

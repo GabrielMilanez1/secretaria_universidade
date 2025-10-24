@@ -5,6 +5,7 @@ require_once '../header.php';
 require_once '../class/Cargo.php';
 require_once '../class/Relatorio.php';
 require_once '../class/Utilidades.php';
+require_once '../class/Usuario.php';
 
 if (!$admin) {
   header('location: /');
@@ -25,6 +26,8 @@ $parametros = $_GET;
 unset($parametros['pagina']);
 
 $query_string = http_build_query($parametros);
+
+$objusuario = new Usuario();
 
 ?>
 
@@ -56,7 +59,7 @@ $query_string = http_build_query($parametros);
         /* esconde algumas colunas no mobile pra ficar legível */
         td:nth-child(3), th:nth-child(3),
         td:nth-child(4), th:nth-child(4),
-        td:nth-child(5), th:nth-child(5) {
+        td:nth-child(5), th:nth-child(5), td:nth-child(7), th:nth-child(7)  {
             display: none;
         }
 
@@ -139,6 +142,10 @@ $query_string = http_build_query($parametros);
                 <th scope="col">CPF</th>
                 <th scope="col">E-mail</th>
                 <th scope="col">Cargo</th>
+                <?php if ($cargo == Cargo::ALUNO): ?>
+                    <th scope="col">Turmas matriculadas</th>
+                    <th scope="col">Associar turmas</th>
+                <?php endif; ?>
                 <th scope="col">Editar</th>
                 </tr>
             </thead>
@@ -150,6 +157,10 @@ $query_string = http_build_query($parametros);
                     <td><?= Utilidades::formataCpf(htmlspecialchars($usuario['cpf'])); ?></td>
                     <td><?= htmlspecialchars($usuario['email']); ?></td>
                     <td><?= htmlspecialchars(Cargo::getNomeCargoById($usuario['id_cargo'])); ?> </td>
+                    <?php if (($cargo == Cargo::ALUNO)): ?>
+                        <td><?= count($objusuario->getTurmasAssociadas($usuario['id'])) ?></td>
+                        <td><a href="/associar-turmas?u=<?= $usuario['id']?>"><i class="fa fa-plus"></i></a></td>
+                    <?php endif; ?>
                     <td><a href="/editar-usuario?u=<?= $usuario['id']?>"><i class="fa fa-edit"></i></a></td>
                 </tr>
                 <?php endforeach; ?>
