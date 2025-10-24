@@ -37,16 +37,16 @@ class RelUsuarioTurma
         }
 
         // Deleta associações atuais
-        $this->deletaAssociacoes($id_usuario);
+        $this->deletaAssociacoesPeloIdUsuario($id_usuario);
         // -------------------------
 
         $erro = false;
         foreach ($turmas_pra_associar as $turma) {
 
-            $turma = Validators::validaIdTurma($turma);
+            $turma = Validators::validaId($turma);
 
             if (!in_array($turma, $turmas_disponiveis)) {
-                $this->deletaAssociacoes($id_usuario);
+                $this->deletaAssociacoesPeloIdUsuario($id_usuario);
 
                 foreach ($backup_turmas as $turma_backup) {
                     $this->criaAssociacao($id_usuario, $turma_backup, $id_usuario_responsavel);
@@ -94,12 +94,25 @@ class RelUsuarioTurma
         return true;
     }        
 
-    private function deletaAssociacoes($id_usuario)
+    public function deletaAssociacoesPeloIdUsuario($id_usuario)
     {
         $db = new MysqliClass();
 
         $query = <<<SQL
             DELETE FROM `$this->tabela` WHERE `id_usuario` = $id_usuario
+        SQL;
+
+        $stmt = $db->getMysqliConnection()->prepare($query);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+    }
+
+    public function deletaAssociacoesPeloIdTurma($id_turma)
+    {
+        $db = new MysqliClass();
+
+        $query = <<<SQL
+            DELETE FROM `$this->tabela` WHERE `id_turma` = $id_turma
         SQL;
 
         $stmt = $db->getMysqliConnection()->prepare($query);

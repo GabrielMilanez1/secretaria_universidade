@@ -12,6 +12,31 @@ if (!$admin) {
   exit();
 }
 
+$objturma = new Turma();
+
+if ($_POST) {
+
+    $_GET = [];
+    $falha = false;
+    $mensagem_erro = '';
+
+    $id_turma = $_POST['id'];
+    $action = $_POST['action'];
+
+    if ($action && $id_turma) {
+        $delete = $objturma->deletarTurma($id_turma);
+
+        if ($delete['sucesso'] == true) {
+            $url_atual = "/listar-turmas/?s=1";
+            header("location: {$url_atual}");
+            exit();
+        } else {
+            $mensagem_erro = $delete['mensagem'];
+            $falha = true;
+        }
+    }
+}
+
 $pagina = isset($_GET['pagina']) && !empty($_GET['pagina']) ? (int)($_GET['pagina']) : 1;
 $filtro_nome = isset($_GET['nome']) && !empty($_GET['nome']) ? $_GET['nome'] : '';
 
@@ -23,12 +48,20 @@ $tem_proxima_pagina = count(Relatorio::getTurmas($proxima_pagina, $filtro_nome))
 
 $parametros = $_GET;
 unset($parametros['pagina']);
+unset($parametros['s']);
 
 $query_string = http_build_query($parametros);
 
-$objturma = new Turma();
-
 ?>
+
+<?php if(!$falha): ?>
+    <style>
+        .erro {
+            display: none;
+            visibility: hidden;
+        }
+    </style>
+<?php endif; ?>
 
 <style>
     .col-md-5 {
@@ -57,6 +90,19 @@ $objturma = new Turma();
 
 <body>
 
+<?php if (isset($_GET['s']) && $_GET['s'] == 1): ?>
+    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+        <strong>Sucesso!</strong> Turma excluída com sucesso. 🎉
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+<?php endif; ?>
+
+<div class="erro">
+    <h4 style="text-align: center; color:red"><?= $mensagem_erro ?></h4>
+    <h5 style="text-align: center; color:red">Tente novamente</h5>
+    <br>
+</div>
+
 <div style="display: flex; justify-content: center;">
     <a href="/adicionar-turma" class="btn btn-warning">
         <i class="fa fa-user-o"></i> Cadastrar turma
@@ -75,7 +121,7 @@ $objturma = new Turma();
 
         <div class="col-md-5">
             <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i> Buscar
+                <i class="fa fa-search"></i> Buscar
             </button>
         </div>
     </form>
@@ -102,6 +148,7 @@ $objturma = new Turma();
                 <th scope="col">Descrição</th>
                 <th scope="col">Alunos matriculados (Clique para listar)</th>
                 <th scope="col">Editar</th>
+                <th scope="col">Deletar</th>
                 </tr>
             </thead>
             <tbody>
@@ -111,6 +158,13 @@ $objturma = new Turma();
                     <td><?= htmlspecialchars($turma['descricao']); ?></td>
                     <td><a href="/listar-alunos-matriculados/?t=<?= $turma['id'] ?>"> <?= count($objturma->getUsuariosAssociados($turma['id'])) ?> </a></td>
                     <td><a href="/editar-turma?u=<?= $turma['id']?>"><i class="fa fa-edit"></i></a></td>
+                     <td>
+                        <form method="post">
+                            <input type="hidden" name="id" value="<?= $turma['id'] ?>">
+                            <input type="hidden" name="action" value="excluir">
+                            <a class="deletar-btn" href="#" type="submit"><i class="fa fa-trash"></i></a>
+                        </form>
+                    </td> 
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -154,4 +208,14 @@ $objturma = new Turma();
 
 </html>
 
-<?php require_once '../footer.php';
+<?php require_once '../footer.php'; ?>
+
+<script>
+    $('.deletar-btn').on('click', function (e) {
+        if (confirm('Ao confirmar, a turma será excluída, você tem certeza?')) {
+            this.closest('form').submit();
+        } else {
+            e.preventDefault();
+        }
+    })
+</script>

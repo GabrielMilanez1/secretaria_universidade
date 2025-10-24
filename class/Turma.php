@@ -20,6 +20,36 @@ class Turma
         return $this->tabela;
     }
 
+    public function deletarTurma($id_turma)
+    {
+        $db = new MysqliClass();
+        $objrelusuarioturma = new RelUsuarioTurma();
+
+        $query = <<<SQL
+            DELETE FROM $this->tabela WHERE id = ?;
+        SQL;
+
+        $id_turma = Validators::validaId($id_turma);
+
+        $stmt = $db->getMysqliConnection()->prepare($query);
+        $stmt->bind_param("i", $id_turma);
+
+        $stmt->execute();
+
+        $linhas_afetadas = $stmt->affected_rows;
+
+        if ($linhas_afetadas > 0) {
+            
+            // Deleta também associação de alunos
+            $objrelusuarioturma->deletaAssociacoesPeloIdTurma($id_turma);
+
+            return ['sucesso' => true, 'mensagem' => 'Turma excluída com sucesso.'];
+        }
+
+        return ['sucesso' => false, 'mensagem' => 'Erro ao deletar.'];
+
+    }
+
     public function getUsuariosAssociados($id_turma)
     {
         $objturmasassociadas = new RelUsuarioTurma();

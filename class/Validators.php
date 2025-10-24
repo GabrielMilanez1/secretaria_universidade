@@ -119,7 +119,7 @@ Class Validators
     throw new \Exception('Descrição da turma inválida. Deve ter mais de 3 caracteres e no máximo 255 caracteres.');
   }
 
-  public static function validaIdTurma($id_turma)
+  public static function validaId($id_turma)
   {
     $id_limpo = filter_var($id_turma, FILTER_SANITIZE_NUMBER_INT);
 

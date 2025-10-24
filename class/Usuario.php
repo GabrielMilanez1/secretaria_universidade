@@ -20,6 +20,36 @@ class Usuario
         return $this->tabela;
     }
 
+    public function deletarUsuario($id_usuario)
+    {
+        $db = new MysqliClass();
+        $objrelusuarioturma = new RelUsuarioTurma();
+
+        $query = <<<SQL
+            DELETE FROM $this->tabela WHERE id = ?;
+        SQL;
+
+        $id_usuario = Validators::validaId($id_usuario);
+
+        $stmt = $db->getMysqliConnection()->prepare($query);
+        $stmt->bind_param("i", $id_usuario);
+
+        $stmt->execute();
+
+        $linhas_afetadas = $stmt->affected_rows;
+
+        if ($linhas_afetadas > 0) {
+            
+            // Deleta também associação em turmas
+            $objrelusuarioturma->deletaAssociacoesPeloIdUsuario($id_usuario);
+
+            return ['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso.'];
+        }
+
+        return ['sucesso' => false, 'mensagem' => 'Erro ao deletar.'];
+
+    }
+
     public function getTurmasAssociadas($id_usuario)
     {
         $objturmasassociadas = new RelUsuarioTurma();

@@ -12,6 +12,31 @@ if (!$admin) {
   exit();
 }
 
+$objusuario = new Usuario();
+
+if ($_POST) {
+    
+    $_GET = [];
+    $falha = false;
+    $mensagem_erro = '';
+
+    $id_usuario = $_POST['id'];
+    $action = $_POST['action'];
+
+    if ($action && $id_usuario) {
+        $delete = $objusuario->deletarUsuario($id_usuario);
+
+        if ($delete['sucesso'] == true) {
+            $url_atual = "/listar-usuarios/?s=1";
+            header("location: {$url_atual}");
+            exit();
+        } else {
+            $mensagem_erro = $delete['mensagem'];
+            $falha = true;
+        }
+    }
+}
+
 $pagina = isset($_GET['pagina']) && !empty($_GET['pagina']) ? (int)($_GET['pagina']) : 1;
 $cargo = isset($_GET['cargo']) && !empty($_GET['cargo']) ? (int)($_GET['cargo']) : Cargo::ALUNO;
 $filtro_nome = isset($_GET['nome']) && !empty($_GET['nome']) ? $_GET['nome'] : '';
@@ -24,14 +49,23 @@ $tem_proxima_pagina = count(Relatorio::getUsuariosPorCargo($cargo, $proxima_pagi
 
 $parametros = $_GET;
 unset($parametros['pagina']);
+unset($parametros['s']);
 
 $query_string = http_build_query($parametros);
 
-$objusuario = new Usuario();
-
 ?>
 
+<?php if(!$falha): ?>
+    <style>
+        .erro {
+            display: none;
+            visibility: hidden;
+        }
+    </style>
+<?php endif; ?>
+
 <style>
+
 
     .col-md-4 {
         text-align: center;
@@ -75,6 +109,19 @@ $objusuario = new Usuario();
 
 <body>
 
+<?php if (isset($_GET['s']) && $_GET['s'] == 1): ?>
+    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+        <strong>Sucesso!</strong> Usuário excluído com sucesso. 🎉
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+<?php endif; ?>
+
+<div class="erro">
+    <h4 style="text-align: center; color:red"><?= $mensagem_erro ?></h4>
+    <h5 style="text-align: center; color:red">Tente novamente</h5>
+    <br>
+</div>
+
 <div style="display: flex; justify-content: center;">
     <a href="/adicionar-usuario" class="btn btn-warning">
         <i class="fa fa-user-o"></i> Cadastrar usuário
@@ -107,7 +154,7 @@ $objusuario = new Usuario();
 
         <div class="col-md-4">
             <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i> Buscar
+                <i class="fa fa-search"></i> Buscar
             </button>
         </div>
     </form>
@@ -140,6 +187,7 @@ $objusuario = new Usuario();
                     <th scope="col">Associar turmas</th>
                 <?php endif; ?>
                 <th scope="col">Editar</th>
+                <th scope="col">Deletar</th>
                 </tr>
             </thead>
             <tbody>
@@ -155,6 +203,13 @@ $objusuario = new Usuario();
                         <td><a href="/associar-turmas?u=<?= $usuario['id']?>"><i class="fa fa-plus"></i></a></td>
                     <?php endif; ?>
                     <td><a href="/editar-usuario?u=<?= $usuario['id']?>"><i class="fa fa-edit"></i></a></td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="id" value="<?= $usuario['id'] ?>">
+                            <input type="hidden" name="action" value="excluir">
+                            <a class="deletar-btn" href="#" type="submit"><i class="fa fa-trash"></i></a>
+                        </form>
+                    </td>   
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -198,4 +253,14 @@ $objusuario = new Usuario();
 
 </html>
 
-<?php require_once '../footer.php';
+<?php require_once '../footer.php'; ?>
+
+<script>
+    $('.deletar-btn').on('click', function (e) {
+        if (confirm('Ao confirmar, o usuário será excluído, você tem certeza?')) {
+            this.closest('form').submit();
+        } else {
+            e.preventDefault();
+        }
+    })
+</script>
