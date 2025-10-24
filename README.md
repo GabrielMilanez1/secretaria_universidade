@@ -14,6 +14,11 @@ O sistema funciona como um informativo pra alunos e gerenciador pra administrado
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 ```
+
+# Configuração do banco de dados
+
+Necessário setar as próprias informações do servidor MySQL no arquivo "class/Config.php" 
+
 # Dump do MySQL
 O arquivo dump.sql possui todos os scripts pra criação do banco de dados e tabelas necessárias pra rodar o projeto, além de também inserir registros pra servirem como demonstração do sistema. 
 Dentre os registros a ser inseridos, também está o login de administrador que pode ser acessado com:
