@@ -10,10 +10,11 @@ if (!$admin) {
   exit();
 }
 
+$falha = false;
+
 if ($_POST) {
 
     $_GET = [];
-    $falha = false;
 
     if (isset($_POST['nome']) 
         && isset($_POST['data_nascimento']) 
@@ -41,10 +42,25 @@ if ($_POST) {
         } else {
             $mensagem_erro = $insert['mensagem'];
             $falha = true;
+
+            // cache pra facilitar o repreenchimento
+            $nome_cache = $_POST['nome'];
+            $data_nascimento_cache = $_POST['data_nascimento'];
+            $cpf_cache = $_POST['cpf'];
+            $email_cache = $_POST['email'];
+            $id_cargo_cache = $_POST['id_cargo'];
+            
         }
 
     }
+}
 
+if (!$falha) {
+    $nome_cache = '';
+    $data_nascimento_cache = '';
+    $cpf_cache = '';
+    $email_cache = '';
+    $id_cargo_cache = '';
 }
 
 ?>
@@ -89,32 +105,32 @@ if ($_POST) {
 
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome Completo</label>
-                        <input type="text" class="form-control" maxlength=30 id="nome" name="nome" 
+                        <input type="text" class="form-control" maxlength=30 id="nome" name="nome" value="<?= $nome_cache ?>"
                             placeholder="Digite o nome" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="data_nascimento" class="form-label">Data de Nascimento</label>
-                        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" 
+                        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" value="<?= $data_nascimento_cache ?>"
                             required>
                     </div>
 
                     <div class="mb-3">
                         <label for="cpf" class="form-label">CPF (Apenas números)</label>
-                        <input type="text" class="form-control" id="cpf" name="cpf" 
+                        <input type="text" class="form-control" id="cpf" name="cpf" value="<?= $cpf_cache ?>"
                             placeholder="Ex: 12345678909" required 
                             maxlength="11">
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="email" name="email" 
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $email_cache ?>"
                             placeholder="nome@exemplo.com" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="senha" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="senha" name="senha" 
+                        <input type="password" class="form-control" id="senha" name="senha"
                             placeholder="Mínimo 8 caracteres" required>
                     </div>
 
@@ -126,10 +142,9 @@ if ($_POST) {
                             <?php
                                 $cargos = Cargo::getCargos();
 
-                                foreach ($cargos as $cargo) {
-                                    echo "<option value='{$cargo['id']}'>{$cargo['nome']}</option>";
-                                }
-                            ?>
+                                foreach ($cargos as $cargo): ?>
+                                    <option <?= $cargo['id'] == $id_cargo_cache ? 'selected': '' ?> value="<?= $cargo['id'] ?>"><?= $cargo['nome'] ?></option>";
+                                <?php endforeach ?>
                         </select>
                     </div>
 

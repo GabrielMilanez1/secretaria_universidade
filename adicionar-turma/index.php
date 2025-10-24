@@ -10,10 +10,11 @@ if (!$admin) {
   exit();
 }
 
+$falha = false;
+
 if ($_POST) {
 
     $_GET = [];
-    $falha = false;
 
     if (isset($_POST['nome']) 
         && isset($_POST['descricao']) 
@@ -33,10 +34,20 @@ if ($_POST) {
         } else {
             $mensagem_erro = $insert['mensagem'];
             $falha = true;
+
+            // cache pra facilitar o repreenchimento
+            $nome_cache = $_POST['nome'];
+            $descricao_cache = $_POST['descricao'];
+
         }
 
     }
 
+}
+
+if (!$falha) {
+    $nome_cache = '';
+    $descricao_cache = '';
 }
 
 ?>
@@ -81,11 +92,11 @@ if ($_POST) {
 
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" maxlength="50" id="nome" name="nome" placeholder="Digite o nome" required>
+                        <input type="text" class="form-control" maxlength="50" id="nome" name="nome" placeholder="Digite o nome" value="<?= $nome_cache ?>" required>
                     </div>
 
                     <label for="descricao" class="form-label">Descrição</label>
-                        <input type="text" class="form-control" maxlength="255" id="descricao" name="descricao" placeholder="Digite a descrição" required>
+                        <input type="text" class="form-control" maxlength="255" id="descricao" name="descricao" placeholder="Digite a descrição" value="<?= $descricao_cache ?>" required>
                     </div>
 
                     <div class="d-grid gap-2 mt-4">
