@@ -1,7 +1,7 @@
 # Secretaria de universidade
 Sistema web para secretaria de uma universidade, desenvolvido para ajudar na gestão de alunos e suas turmas
 
-O sistema funciona diferente para administradores e alunos, um informativo pra alunos e um gerenciador pra administradores
+O sistema funciona como um informativo pra alunos e gerenciador pra administradores
 
 # Configuração de vhost
 ```
