@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body {
+    font-family: 'Montserrat';
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.container input[type="text"],
+.container input[type="password"],
+.container select{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+.container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #0072F8;
+    color: #2e2e2e;
+    cursor: pointer;
+}
+
+.container input[type="submit"]:hover {
+    background-color: #512424;
+    color: #fff;
+}
+
+.container p {
+    margin-top: 15px;
+    text-align: center;
+}
+
+@media only screen and (min-width: 1025px) {
+    body {
+        height: 100vh;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+
+    h2 {
+        font-size: 40px;
+    }
+
+    input {
+        font-size: 25px;
+    }
+
+    p {
+        font-size: 20px;
+    }
+    
+    .container {
+        width: 500px;
+    }
+}
