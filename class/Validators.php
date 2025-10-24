@@ -13,9 +13,9 @@ Class Validators
       return $nome;
     }
 
-    throw new \Exception('Nome inválido');
+    throw new \Exception('Nome inválido, deve ter no mínimo 3 caracteres e no máximo 30');
   }
-
+  
   public static function validaDataNascimento($data_nascimento)
   {
     $data_nascimento = strip_tags($data_nascimento);

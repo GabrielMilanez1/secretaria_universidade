@@ -168,7 +168,7 @@ class Usuario
             return ['sucesso' => true, 'mensagem' => 'Usuário inserido com sucesso.'];
         }
 
-        return ['sucesso' => false, 'mensagem' => 'Erro ao salvar, verifique se todas informações foram preenchidas.'];
+        return ['sucesso' => false, 'mensagem' => 'Erro ao salvar, verifique se todas informações foram preenchidas ou se o CPF/Email já estão sendo utilizados.'];
     }
 
     public function getByEmail($email)
