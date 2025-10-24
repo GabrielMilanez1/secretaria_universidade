@@ -9,6 +9,8 @@ require_once 'Cargo.php';
 class Relatorio
 {
 
+  const POR_PAGINA = 10;
+
   public static function getUsuariosPorCargo(int $cargo_aluno, $pagina = 1, $nome_aluno = false)
   {
     $db = new MysqliClass();
@@ -22,7 +24,7 @@ class Relatorio
         WHERE `id_cargo` = $cargo_aluno
     SQL;
 
-    $itens_por_pagina = 10;
+    $itens_por_pagina = self::POR_PAGINA;
     $pagina = max(1, (int)$pagina); 
     $offset = ($pagina - 1) * $itens_por_pagina;
     
@@ -52,6 +54,49 @@ class Relatorio
 
     return $usuarios;
   
+  }
+
+  public static function getTurmas($pagina = 1, $nome_turma = false)
+  {
+    $db = new MysqliClass();
+
+    $objturma = new Turma();
+
+    $tabela = $objturma->getNomeTabela();
+
+    $query = <<<SQL
+        SELECT * FROM `$tabela`
+    SQL;
+
+    $itens_por_pagina = self::POR_PAGINA;
+    $pagina = max(1, (int)$pagina); 
+    $offset = ($pagina - 1) * $itens_por_pagina;
+    
+    $tipos = '';
+    $params = [];
+
+    if (isset($nome_turma) && !empty($nome_turma)) {
+        $nome_turma_limpa = strip_tags(trim($nome_turma));
+
+        $query .= " WHERE `nome` LIKE ?";
+        
+        $params[] = "%{$nome_turma_limpa}%";
+
+        $tipos .= "s";
+    }
+
+    $query .= <<<SQL
+      ORDER BY `nome`
+      LIMIT $itens_por_pagina OFFSET $offset
+    SQL;
+
+    $turmas = $db->getResultsPreparedQuery($query, $tipos, $params);
+
+    if (count($turmas) <= 0) {
+        return [];
+    }
+
+    return $turmas;
   }
   
   

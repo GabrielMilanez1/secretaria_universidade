@@ -28,15 +28,66 @@ $query_string = http_build_query($parametros);
 
 ?>
 
+<style>
+
+    .col-md-4 {
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: end;
+        gap: 2em;
+    }
+    
+    @media (max-width: 768px) {
+        .table-responsive {
+            box-shadow: none;
+            border-radius: 0;
+        }
+
+        .table td, .table th {
+            font-size: 0.85em;
+            padding: 0.6em;
+        }
+
+        /* esconde algumas colunas no mobile pra ficar legível */
+        td:nth-child(3), th:nth-child(3),
+        td:nth-child(4), th:nth-child(4),
+        td:nth-child(5), th:nth-child(5) {
+            display: none;
+        }
+
+        .table td:last-child {
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .table td, .table th {
+            font-size: 0.8em;
+        }
+    }
+
+</style>
+
 <head>
   <title>Página Inicial | Listar usuários</title>
 </head>
 
 <body>
 
+<div style="display: flex; justify-content: center;">
+    <a href="/adicionar-usuario" class="btn btn-warning">
+        <i class="fa fa-user-o"></i> Cadastrar usuário
+    </a>
+</div>
+
 <div class="container mt-5" style="display: flex; flex-direction: column; gap: 1em;">
 
-    <form class="row g-3 align-items-end mb-4" method="GET" action="">
+    <form method="GET" action="">
             
         <div class="col-md-4">
             <label for="cargo" class="form-label">Filtrar por Cargo</label>
@@ -67,7 +118,7 @@ $query_string = http_build_query($parametros);
 
     <?php if ($query_string): ?>
         <a href="/listar-usuarios" class="btn btn-danger">
-            <i class="fas fa-search"></i> Limpar filtros
+            <i class="fa fa-trash"></i> Limpar filtros
         </a>
     <?php endif; ?>
 
@@ -106,7 +157,7 @@ $query_string = http_build_query($parametros);
             </table>
         </div>
 
-        <nav aria-label="Paginação de Usuários">
+        <nav aria-label="Paginação de Usuários" style="margin-bottom: 1.2em;">
             <ul class="pagination justify-content-center">
                 
                 <?php if ($pagina > 1): ?>
