@@ -77,7 +77,7 @@ if ($_POST) {
     <br>
 </div>
 
-<div class="row justify-content-center" style="--bs-gutter-x: 0 !important;">
+<div class="row justify-content-center" style="--bs-gutter-x: 0 !important; margin-bottom: 2em;">
     <div class="col-md-8 col-lg-6">
         <div class="card shadow-lg">
             <div class="card-header bg-primary text-white">
