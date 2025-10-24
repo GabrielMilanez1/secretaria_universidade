@@ -115,7 +115,7 @@ if ($_POST) {
                     <div class="mb-3">
                         <label for="senha" class="form-label">Senha</label>
                         <input type="password" class="form-control" id="senha" name="senha" 
-                            placeholder="Mínimo 6 caracteres" required>
+                            placeholder="Mínimo 8 caracteres" required>
                     </div>
 
                     <div class="mb-3">
