@@ -19,4 +19,5 @@ O arquivo dump.sql possui todos os scripts pra criação do banco de dados e tab
 Dentre os registros a ser inseridos, também está o login de administrador que pode ser acessado com:
 
 Email - admin@admin.com
+<br>
 Senha - 123
