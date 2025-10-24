@@ -67,13 +67,6 @@ $objusuario = new Usuario();
             text-align: center;
         }
     }
-
-    @media (max-width: 400px) {
-        .table td, .table th {
-            font-size: 0.8em;
-        }
-    }
-
 </style>
 
 <head>

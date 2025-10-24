@@ -2,9 +2,7 @@
 require_once '../session/session_start.php';
 require_once '../header.php';
 
-require_once '../class/Cargo.php';
 require_once '../class/Relatorio.php';
-require_once '../class/Utilidades.php';
 require_once '../class/Turma.php';
 
 if (!$admin) {
@@ -12,14 +10,20 @@ if (!$admin) {
   exit();
 }
 
-$pagina = isset($_GET['pagina']) && !empty($_GET['pagina']) ? (int)($_GET['pagina']) : 1;
-$filtro_nome = isset($_GET['nome']) && !empty($_GET['nome']) ? $_GET['nome'] : '';
+$turma = isset($_GET['t']) && !empty($_GET['t']) ? $_GET['t'] : false;
 
-$turmas = Relatorio::getTurmas($pagina, $filtro_nome);
+if (!$turma) {
+    header('location: /listar-turmas');
+    exit();
+}
+
+$pagina = isset($_GET['pagina']) && !empty($_GET['pagina']) ? (int)($_GET['pagina']) : 1;
+
+$alunos = Relatorio::getAlunosMatriculados($turma, $pagina);
 
 $proxima_pagina = $pagina + 1;
 
-$tem_proxima_pagina = count(Relatorio::getTurmas($proxima_pagina, $filtro_nome)) > 0 ? true : false;
+$tem_proxima_pagina = count(Relatorio::getAlunosMatriculados($turma, $proxima_pagina)) > 0 ? true : false;
 
 $parametros = $_GET;
 unset($parametros['pagina']);
@@ -27,6 +31,7 @@ unset($parametros['pagina']);
 $query_string = http_build_query($parametros);
 
 $objturma = new Turma();
+$turma = $objturma->getById($turma);
 
 ?>
 
@@ -52,45 +57,19 @@ $objturma = new Turma();
 </style>
 
 <head>
-  <title>Página Inicial | Listar turmas</title>
+  <title>Página Inicial | Listar alunos matriculados</title>
 </head>
 
 <body>
 
-<div style="display: flex; justify-content: center;">
-    <a href="/adicionar-turma" class="btn btn-warning">
-        <i class="fa fa-user-o"></i> Cadastrar turma
-    </a>
-</div>
 
 <div class="container mt-5" style="display: flex; flex-direction: column; gap: 1em;">
 
-    <form method="GET" action="">
-            
-        <div class="col-md-5">
-            <label for="nome" class="form-label">Buscar por Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" 
-                    value="<?= htmlspecialchars($filtro_nome) ?>" placeholder="Nome">
-        </div>
+    <h2 class="mb-3">Alunos matriculados em: <?= $turma['nome'] ?></h2>
 
-        <div class="col-md-5">
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i> Buscar
-            </button>
-        </div>
-    </form>
-
-    <?php if ($query_string): ?>
-        <a href="/listar-turmas" class="btn btn-danger">
-            <i class="fa fa-trash"></i> Limpar filtros
-        </a>
-    <?php endif; ?>
-
-    <h2 class="mb-3">Listagem de Turmas</h2>
-
-    <?php if (empty($turmas)): ?>
+    <?php if (empty($alunos)): ?>
         <div class="alert alert-warning" role="alert">
-            Nenhuma turma encontrado com os filtros aplicados.
+            Nenhum aluno matriculado.
         </div>
     <?php else: ?>
 
@@ -98,26 +77,24 @@ $objturma = new Turma();
             <table class="table table-striped table-hover table-bordered">
             <thead class="thead-dark">
                 <tr>
-                <th scope="col">Nome</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Alunos matriculados (Clique para listar)</th>
-                <th scope="col">Editar</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Data de nascimento</th>
+                    <th scope="col">CPF</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($turmas as $turma): ?>
+                <?php foreach ($alunos as $aluno): ?>
                 <tr>
-                    <td><?= htmlspecialchars($turma['nome']); ?></td>
-                    <td><?= htmlspecialchars($turma['descricao']); ?></td>
-                    <td><a href="/listar-alunos-matriculados/?t=<?= $turma['id'] ?>"> <?= count($objturma->getUsuariosAssociados($turma['id'])) ?> </a></td>
-                    <td><a href="/editar-turma?u=<?= $turma['id']?>"><i class="fa fa-edit"></i></a></td>
+                    <td><?= htmlspecialchars($aluno['nome']); ?></td>
+                    <td><?= Utilidades::formataDataBr(htmlspecialchars($aluno['data_nascimento'])); ?></td>
+                    <td><?= Utilidades::formataCpf($aluno['cpf']) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
             </table>
         </div>
 
-        <nav aria-label="Paginação de Turmas" style="margin-bottom: 1.2em;">
+        <nav aria-label="Paginação de Alunos" style="margin-bottom: 1.2em;">
             <ul class="pagination justify-content-center">
                 
                 <?php if ($pagina > 1): ?>
