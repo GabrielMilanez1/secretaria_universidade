@@ -96,5 +96,27 @@ Class Validators
     
     return (int)$id_limpo;
   }
+
+  public static function validaNomeTurma($nome)
+  {
+    $nome = strip_tags($nome);
+
+    if (strlen($nome) > 0 && strlen($nome) <= 50) {
+      return $nome;
+    }
+
+    throw new \Exception('Nome da turma inválido. Deve ter no máximo 50 caracteres.');
+  }
+
+  public static function validaDescricaoTurma($descricao)
+  {
+    $descricao = strip_tags($descricao);
+
+    if (strlen($descricao) > 0 && strlen($descricao) <= 255){
+        return $descricao;
+    }
+
+    throw new \Exception('Descrição da turma inválida. Deve ter no máximo 255 caracteres.');
+  }
   
 }

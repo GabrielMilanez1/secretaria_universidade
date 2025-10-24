@@ -1,13 +1,17 @@
 <?php
 
 require_once 'MysqliClass.php';
-require_once 'Utilidades.php';
 require_once 'Validators.php';
 
 class Usuario
 {
 
   private $tabela = 'tb_usuarios';
+
+  public function getNomeTabela()
+  {
+    return $this->tabela;
+  }
 
   public function salvar($nome, $data_nascimento, $cpf, $email, $senha, $id_cargo)
   {
@@ -43,7 +47,7 @@ class Usuario
         return ['sucesso' => true, 'mensagem' => 'Usuário inserido com sucesso.'];
     }
 
-    return ['sucesso' => false, 'mensagem' => 'Erro ao salvar, contate um administrador.'];
+    return ['sucesso' => false, 'mensagem' => 'Erro ao salvar, verifique se todas informações foram preenchidas.'];
   }
 
   public function getByEmail($email)
@@ -54,22 +58,6 @@ class Usuario
     SQL;
 
     $usuario = $db->getResultsQuery($query);
-    if (count($usuario) <= 0) {
-        return false;
-    }
-
-    return $usuario[0];
-  }
-
-  public function getById($id)
-  {
-    $db = new MysqliClass();
-    $query = <<<SQL
-        SELECT * FROM `$this->tabela` WHERE `id` = $id
-    SQL;
-
-    $usuario = $db->getResultsQuery($query);
-
     if (count($usuario) <= 0) {
         return false;
     }

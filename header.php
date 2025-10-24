@@ -9,10 +9,50 @@ $admin = $sessao->usuarioAdm();
 $aluno = $sessao->usuarioAluno();
 
 if (!$logado) {
-  header('location: /login');
+    header('location: /login');
 }
 
 $nome = Utilidades::formataNome($_SESSION['nome']);
+
+$paginas_admin = [
+    <<<HTML
+        <li><a href="/adicionar-turma">Adicionar turma</a></li>
+        <li><a href="/listar-usuarios">Listar usuários</a></li>
+    HTML,
+];
+
+$paginas_logado = [
+    <<<HTML
+        <li><a href="/logout">Sair</a></li>
+    HTML,
+];
+
+$paginas_deslogado = [
+    <<<HTML
+        <li><a href="/login">Login</a></li>
+    HTML,
+];
+
+$links_clicaveis = '';
+
+if ($logado) {
+
+    if ($admin) {
+        foreach ($paginas_admin as $item) {
+            $links_clicaveis .= $item;
+        }
+    }
+
+    foreach ($paginas_logado as $item) {
+        $links_clicaveis .= $item;
+    }
+
+    } else {
+
+    foreach ($paginas_deslogado as $item) {
+        $links_clicaveis .= $item;
+    }
+}
 
 ?>
 
@@ -40,23 +80,12 @@ $nome = Utilidades::formataNome($_SESSION['nome']);
           <p class="titulo-header">Secretaria da Universidade</p>
         </a>
         <?php if ($logado): ?>
-          <p>Olá <strong><?= $nome ?> <?= $admin ? '(Administrador)' : '' ?> </strong></p>
+          <p class="segundo-titulo-header">Olá <strong><?= $nome ?> <?= $admin ? '(Administrador)' : '' ?> </strong></p>
         <?php endif; ?>
       </div>
       <nav>
         <ul>
-          <li>
-          <?php if ($logado): ?>
-
-            <?php if ($admin): ?>
-                <li><a href="/adicionar-usuario">Adicionar Usuário</a></li>
-            <?php endif; ?>
-
-            <li><a href="/logout">Sair</a></li>
-
-          <?php else: ?>
-            <li><a href="/login">Login</a></li>
-          <?php endif; ?>
+          <?= $links_clicaveis ?>
         </ul>
       </nav>
     </div>
@@ -70,21 +99,11 @@ $nome = Utilidades::formataNome($_SESSION['nome']);
 
     <div id="links_hamburger">
 
-      <?php if ($logado): ?>
-        <p style="text-align: center;">Olá <strong><?= $nome ?> <?= $admin ? '(Administrador)' : '' ?> </strong></p>
-      <?php endif; ?>
-
-      <?php if ($logado): ?>
-
-        <?php if ($admin): ?>
-            <li><a href="/adicionar-usuario">Adicionar Usuário</a></li>
+        <?php if ($logado): ?>
+            <p class="segundo-titulo-header" style="text-align: center;">Olá <strong><?= $nome ?> <?= $admin ? '(Administrador)' : '' ?> </strong></p>
         <?php endif; ?>
 
-        <a href="/logout">Sair</a>
-
-      <?php else: ?>
-        <a href="/login">Login</a>
-      <?php endif; ?>
+        <?= $links_clicaveis ?>
       
     </div>
 

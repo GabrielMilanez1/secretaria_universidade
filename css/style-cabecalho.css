@@ -46,7 +46,7 @@ nav ul li {
 }
 
 nav ul li a {
-  color: #2e2e2e;
+  color: #fff;
   font-size: 18px;
   font-weight: 700;
 }
@@ -57,9 +57,13 @@ nav ul li a:hover {
 
 .titulo-header {
   text-decoration: none;
-  color: #2e2e2e;
+  color: #fff;
   font-weight: 800;
   font-size: 1.5em;
+}
+
+.segundo-titulo-header {
+  color: #fff;
 }
 
 @media only screen and (min-width: 1025px) {
@@ -80,6 +84,7 @@ nav ul li a:hover {
     overflow: hidden;
     background-color: #0072F8;
     position: relative;
+    margin-bottom: 1em;
   }
 
   .topnav #links_hamburger {
@@ -87,7 +92,7 @@ nav ul li a:hover {
   }
 
   .topnav a {
-    color: #2e2e2e;
+    color: #fff;
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
@@ -115,7 +120,7 @@ nav ul li a:hover {
 
   .titulo-header {
     text-decoration: none;
-    color: #2e2e2e;
+    color: #fff;
     font-weight: 800;
     font-size: 5vw;
     margin-bottom: 1.5vh;

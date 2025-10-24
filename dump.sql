@@ -2,6 +2,10 @@
 CREATE DATABASE `db_secretaria_universidade` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 /* ---------------- */
 
+/* Pra selecionar o novo banco */
+USE `db_secretaria_universidade`;
+/* ---------------- */
+
 /* Pra criar a tabela de usuários */
 CREATE TABLE `tb_usuarios` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -31,4 +35,13 @@ VALUES(1, 'Administrador');
 INSERT INTO db_secretaria_universidade.tb_cargos
 (id, nome)
 VALUES(2, 'Aluno');
+/* ---------------- */
+
+/* Pra criar a tabela de turmas */
+CREATE TABLE tb_turmas (
+    id INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(255),
+    PRIMARY KEY (id)
+);
 /* ---------------- */

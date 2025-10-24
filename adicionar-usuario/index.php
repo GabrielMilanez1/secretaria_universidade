@@ -1,6 +1,5 @@
 <?php
 require_once '../session/session_start.php';
-require_once '../services/UsuarioService.php';
 require_once '../header.php';
 
 require_once '../class/Cargo.php';
@@ -12,6 +11,9 @@ if (!$admin) {
 }
 
 if ($_POST) {
+
+    $_GET = [];
+    $falha = false;
 
     if (isset($_POST['nome']) 
         && isset($_POST['data_nascimento']) 
@@ -79,7 +81,7 @@ if ($_POST) {
     <div class="col-md-8 col-lg-6">
         <div class="card shadow-lg">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Adicionar Novo Usuário</h4>
+                <h4 class="mb-0">Adicionar novo usuário</h4>
             </div>
             <div class="card-body">
                 
@@ -87,7 +89,7 @@ if ($_POST) {
 
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome Completo</label>
-                        <input type="text" class="form-control" id="nome" name="nome" 
+                        <input type="text" class="form-control" maxlength=30 id="nome" name="nome" 
                             placeholder="Digite o nome" required>
                     </div>
 
@@ -132,7 +134,7 @@ if ($_POST) {
                     </div>
 
                     <div class="d-grid gap-2 mt-4">
-                        <button type="submit" class="btn btn-warning btn-lg">Cadastrar Usuário</button>
+                        <button type="submit" class="btn btn-warning btn-lg">Cadastrar usuário</button>
                     </div>
                 </form>
             </div>

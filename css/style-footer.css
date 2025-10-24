@@ -1,9 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 footer.footer-container {
-  margin-top: 4em;
   background-color: #0072F8;
-  color: #2e2e2e;
+  color: #fff;
   font-family: 'Montserrat';
   display: flex;
   flex-direction: row;
@@ -20,23 +19,15 @@ footer.footer-container .footer {
   font-weight: 700;
 }
 
-footer.footer-container .footer a {
-  text-decoration: none;
-  color: #2e2e2e;
+html, body {
+  height: 100%;
 }
 
-footer.footer-container .footer .social-media a {
-  text-decoration: none !important;
-  color: #2e2e2e;
-}
-
-footer.footer-container .footer .social-media {
+body {
   display: flex;
-  flex-direction: row;
-  gap: 0.6em;
+  flex-direction: column;
 }
 
-footer.footer-container .footer .social-media a img {
-  width: 30px;
-  border-radius: 15px;
+footer.footer-container {
+  margin-top: auto;
 }

@@ -19,6 +19,27 @@ Class Utilidades
     return $nome_formatado;
   }
 
+  public static function formataDataBr($data) 
+  {
+    if (empty($data)) {
+        return null;
+    }
+    return date('d/m/Y', strtotime($data));
+  }
+
+  public static function formataCpf($cpf)
+  {
+    // Remove qualquer caractere que não seja número
+    $cpf_limpo = preg_replace('/[^0-9]/', '', $cpf);
+
+    // Verifica se o CPF limpo tem 11 dígitos
+    if (strlen($cpf_limpo) === 11) {
+        // Aplica a máscara de CPF
+        return substr($cpf_limpo, 0, 3) . '.' . substr($cpf_limpo, 3, 3) . '.' . substr($cpf_limpo, 6, 3) . '-' . substr($cpf_limpo, 9, 2);
+    }
+    return null; // Retorna null se o CPF não tiver 11 dígitos válidos para formatação
+  }
+
   public static function validaCPF($cpf) 
   {
 

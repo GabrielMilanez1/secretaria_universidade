@@ -6,13 +6,13 @@ require_once 'services/UsuarioService.php';
 
 ?>
 
-  <head>
-    <title>Página Inicial | Secrataria da Universidade</title>
-  </head>
+<head>
+  <title>Página Inicial | Secrataria da Universidade</title>
+</head>
+
+<body>
   
-  <body>
-    
-  </body>
+</body>
 
 </html>
 

@@ -26,6 +26,22 @@ class Cargo
     return $cargos;
   }
 
+  public static function getNomeCargoById(int $id)
+  {
+    $db = new MysqliClass();
+    $tabela = self::$tabela;
+    $query = <<<SQL
+        SELECT `nome` FROM `$tabela` WHERE `id` = $id
+    SQL;
+
+    $cargo = $db->getResultsQuery($query);
+    if (count($cargo) <= 0) {
+        return false;
+    }
+
+    return $cargo[0]['nome'];
+  }
+
   public static function idsCargosDisponiveis()
   {
     $retorno = [];
