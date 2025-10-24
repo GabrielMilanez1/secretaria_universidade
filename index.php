@@ -119,9 +119,9 @@ require_once 'class/Relatorio.php';
         <h4 style="text-align: center;"><?= $sessao->getNome() ?>, você é um administrador! Aqui estão algumas informações que podem ser úteis:</h4>
 
         <ul class="lista-home">
-            <li>- 👨‍🎓 Total de alunos: <strong><?= Relatorio::getTotalUsuariosPorCargo(Cargo::ALUNO) ?></strong> </li>
-            <li>- 🏫 Total de turmas: <strong><?= Relatorio::getTotalTurmas() ?></strong></li>
-            <li>- 👩‍🏫 Administradores cadastrados: <strong><?= Relatorio::getTotalUsuariosPorCargo(Cargo::ADMINISTRADOR) ?></strong> </li>
+            <li>👨‍🎓 Total de alunos: <strong><?= Relatorio::getTotalUsuariosPorCargo(Cargo::ALUNO) ?></strong> </li>
+            <li>🏫 Total de turmas: <strong><?= Relatorio::getTotalTurmas() ?></strong></li>
+            <li>👩‍🏫 Administradores cadastrados: <strong><?= Relatorio::getTotalUsuariosPorCargo(Cargo::ADMINISTRADOR) ?></strong> </li>
         </ul>
 
         <div class="mt-4 d-flex flex-wrap gap-3">

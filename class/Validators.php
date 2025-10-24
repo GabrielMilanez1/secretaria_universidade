@@ -69,13 +69,13 @@ Class Validators
       $senha_pura = strip_tags(trim($senha_pura));
 
       if (strlen($senha_pura) < 8 || strlen($senha_pura) > 255) {
-          throw new \Exception('A senha deve ter no mínimo 8 e no máximo 255 caracteres.');
+          throw new \Exception('A senha deve ter no mínimo 8 e no máximo 255 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.');
       }
 
       $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/';
 
       if (!preg_match($pattern, $senha_pura)) {
-          throw new \Exception('A senha deve conter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.');
+          throw new \Exception('A senha deve ter no mínimo 8 e no máximo 255 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.');
       }
 
       return md5($senha_pura);
