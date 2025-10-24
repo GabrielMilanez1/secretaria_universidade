@@ -1,129 +1,136 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
 
 ul, li {
-  list-style-type: none;
-}
-
-.container {
-  width: 80%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.container a {
-  text-decoration: none !important;
-}
-
-header .header-container {
-  width: 100%;
-  margin: 0;
-  background-color: #0072F8;
-  color: #2e2e2e;
-  margin-bottom: 4em;
-}
-
-header .header-container .container {
-  padding: 20px 0;
-  font-family: 'Montserrat';
-  width: 100%;
-}
-
-h1 {
-  margin: 0;
-}
-
-nav ul {
-  list-style-type: none;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-nav ul li {
-  display: inline;
-  margin-left: 20px;
+a {
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+}
+
+.container {
+  width: 85%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+header .header-container {
+  width: 100%;
+  background-color: #0056d2;
+  color: #fff;
+  padding: 1rem 0;
+  margin-bottom: 4em;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+header .header-container .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titulo-header {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  color: #fff;
+}
+
+.segundo-titulo-header {
+  font-size: 1.1rem;
+  color: #f0f0f0;
+  margin-top: 0.3rem;
+  text-align: center;
+}
+
+nav ul {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 nav ul li a {
   color: #fff;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
 }
 
 nav ul li a:hover {
-  text-decoration: underline;
-}
-
-.titulo-header {
+  background-color: rgba(255,255,255,0.15);
   text-decoration: none;
-  color: #fff;
-  font-weight: 800;
-  font-size: 1.5em;
 }
 
-.segundo-titulo-header {
+.topnav {
+  display: flex;
+  flex-direction: column;
+  background-color: #0056d2;
+  padding: 1rem;
+  margin-bottom: 1em;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.topnav #links_hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.topnav #links_hamburger a {
+  color: #fff;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+}
+
+.topnav #links_hamburger a:hover {
+  background-color: rgba(255,255,255,0.15);
+}
+
+.topnav a.icon {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  cursor: pointer;
   color: #fff;
 }
 
-@media only screen and (min-width: 1025px) {
-  
+.topnav .titulo-header {
+  font-size: 5vw;
+  text-align: center;
+  margin: 0;
+}
+
+.topnav .segundo-titulo-header {
+  margin-top: 0.5rem;
+  font-size: 3.5vw;
+  text-align: center;
+}
+
+/* Media Queries */
+@media (min-width: 1025px) {
   .esconde-desktop {
     display: none !important;
   }
-  
 }
 
-@media only screen and (max-width: 1024px) {
-  
+@media (max-width: 1024px) {
   .esconde-mobile {
     display: none !important;
-  }
-
-  .topnav {
-    overflow: hidden;
-    background-color: #0072F8;
-    position: relative;
-    margin-bottom: 1em;
-  }
-
-  .topnav #links_hamburger {
-    display: none;
-  }
-
-  .topnav a {
-    color: #fff;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-    display: block;
-  }
-
-  a i.fa.fa-bars {
-    color: #fff !important;
-  }
-
-  .topnav a.icon {
-    margin-top: 4%;
-    margin-right: 4%;
-    background: black;
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
-  .topnav a:hover {
-    background-color: #0072F8;
-    color: #2e2e2e;
-  }
-
-  .titulo-header {
-    text-decoration: none;
-    color: #fff;
-    font-weight: 800;
-    font-size: 5vw;
-    margin-bottom: 1.5vh;
-    margin-top: 1.5vh;
   }
 }

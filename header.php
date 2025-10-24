@@ -21,19 +21,15 @@ $paginas_admin = [
     HTML,
 ];
 
-$paginas_logado = [
+$paginas = [
     <<<HTML
         <li><a href="/logout">Sair</a></li>
     HTML,
 ];
 
-$paginas_deslogado = [
-    <<<HTML
-        <li><a href="/login">Login</a></li>
-    HTML,
-];
-
-$links_clicaveis = '';
+$links_clicaveis = <<<HTML
+  <li><a href="/">Home</a></li>
+HTML;
 
 if ($logado) {
 
@@ -43,15 +39,11 @@ if ($logado) {
         }
     }
 
-    foreach ($paginas_logado as $item) {
+    foreach ($paginas as $item) {
         $links_clicaveis .= $item;
     }
 
     } else {
-
-    foreach ($paginas_deslogado as $item) {
-        $links_clicaveis .= $item;
-    }
 }
 
 ?>

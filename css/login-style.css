@@ -39,8 +39,9 @@ body {
     padding: 10px;
     border: none;
     border-radius: 3px;
-    background-color: #0072F8;
-    color: #2e2e2e;
+    background-color: #0056d2;
+    color: #fff;
+    font-weight: 800;
     cursor: pointer;
 }
 
