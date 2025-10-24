@@ -12,14 +12,13 @@ if (!$admin) {
 }
 
 $pagina = isset($_GET['pagina']) && !empty($_GET['pagina']) ? (int)($_GET['pagina']) : 1;
-$cargo = isset($_GET['cargo']) && !empty($_GET['cargo']) ? (int)($_GET['cargo']) : Cargo::ALUNO;
 $filtro_nome = isset($_GET['nome']) && !empty($_GET['nome']) ? $_GET['nome'] : '';
 
-$usuarios = Relatorio::getUsuariosPorCargo($cargo, $pagina, $filtro_nome);
+$turmas = Relatorio::getTurmas($pagina, $filtro_nome);
 
 $proxima_pagina = $pagina + 1;
 
-$tem_proxima_pagina = count(Relatorio::getUsuariosPorCargo($cargo, $proxima_pagina, $filtro_nome)) > 0 ? true : false;
+$tem_proxima_pagina = count(Relatorio::getTurmas($proxima_pagina, $filtro_nome)) > 0 ? true : false;
 
 $parametros = $_GET;
 unset($parametros['pagina']);
@@ -29,11 +28,10 @@ $query_string = http_build_query($parametros);
 ?>
 
 <style>
-
-    .col-md-4 {
+    .col-md-5 {
         text-align: center;
     }
-
+    
     form {
         display: flex;
         flex-direction: row;
@@ -41,47 +39,17 @@ $query_string = http_build_query($parametros);
         align-items: end;
         gap: 2em;
     }
-
-    @media (max-width: 768px) {
-        .table-responsive {
-            box-shadow: none;
-            border-radius: 0;
-        }
-
-        .table td, .table th {
-            font-size: 0.85em;
-            padding: 0.6em;
-        }
-
-        /* esconde algumas colunas no mobile pra ficar legível */
-        td:nth-child(3), th:nth-child(3),
-        td:nth-child(4), th:nth-child(4),
-        td:nth-child(5), th:nth-child(5) {
-            display: none;
-        }
-
-        .table td:last-child {
-            text-align: center;
-        }
-    }
-
-    @media (max-width: 400px) {
-        .table td, .table th {
-            font-size: 0.8em;
-        }
-    }
-
 </style>
 
 <head>
-  <title>Página Inicial | Listar usuários</title>
+  <title>Página Inicial | Listar turmas</title>
 </head>
 
 <body>
 
 <div style="display: flex; justify-content: center;">
-    <a href="/adicionar-usuario" class="btn btn-warning">
-        <i class="fa fa-user-o"></i> Cadastrar usuário
+    <a href="/adicionar-turma" class="btn btn-warning">
+        <i class="fa fa-user-o"></i> Cadastrar turma
     </a>
 </div>
 
@@ -89,27 +57,13 @@ $query_string = http_build_query($parametros);
 
     <form method="GET" action="">
             
-        <div class="col-md-4">
-            <label for="cargo" class="form-label">Filtrar por Cargo</label>
-            <select class="form-select" id="cargo" name="cargo">           
-                <?php 
-                    $cargos_disponiveis = Cargo::getCargos(); 
-                    
-                    if (is_array($cargos_disponiveis)): ?>
-                        <?php foreach ($cargos_disponiveis as $cargo_disponivel): ?>
-                            <option <?= $cargo_disponivel['id'] == $cargo ? 'selected' : '' ?> value='<?= $cargo_disponivel['id'] ?>'><?= $cargo_disponivel['nome'] ?></option>"; 
-                        <?php endforeach; ?> 
-                    <?php endif; ?>
-            </select>
-        </div>
-
-        <div class="col-md-4">
+        <div class="col-md-5">
             <label for="nome" class="form-label">Buscar por Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" 
                     value="<?= htmlspecialchars($filtro_nome) ?>" placeholder="Nome">
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-search"></i> Buscar
             </button>
@@ -117,16 +71,16 @@ $query_string = http_build_query($parametros);
     </form>
 
     <?php if ($query_string): ?>
-        <a href="/listar-usuarios" class="btn btn-danger">
+        <a href="/listar-turmas" class="btn btn-danger">
             <i class="fa fa-trash"></i> Limpar filtros
         </a>
     <?php endif; ?>
 
-    <h2 class="mb-3">Listagem de Usuários</h2>
+    <h2 class="mb-3">Listagem de Turmas</h2>
 
-    <?php if (empty($usuarios)): ?>
+    <?php if (empty($turmas)): ?>
         <div class="alert alert-warning" role="alert">
-            Nenhum usuário encontrado com os filtros aplicados.
+            Nenhuma turma encontrado com os filtros aplicados.
         </div>
     <?php else: ?>
 
@@ -135,29 +89,23 @@ $query_string = http_build_query($parametros);
             <thead class="thead-dark">
                 <tr>
                 <th scope="col">Nome</th>
-                <th scope="col">Data de Nascimento</th>
-                <th scope="col">CPF</th>
-                <th scope="col">E-mail</th>
-                <th scope="col">Cargo</th>
+                <th scope="col">Descrição</th>
                 <th scope="col">Editar</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($usuarios as $usuario): ?>
+                <?php foreach ($turmas as $turma): ?>
                 <tr>
-                    <td><?= htmlspecialchars($usuario['nome']); ?></td>
-                    <td><?= Utilidades::formataDataBr(htmlspecialchars($usuario['data_nascimento'])); ?></td>
-                    <td><?= Utilidades::formataCpf(htmlspecialchars($usuario['cpf'])); ?></td>
-                    <td><?= htmlspecialchars($usuario['email']); ?></td>
-                    <td><?= htmlspecialchars(Cargo::getNomeCargoById($usuario['id_cargo'])); ?> </td>
-                    <td><a href="/editar-usuario?u=<?= $usuario['id']?>"><i class="fa fa-edit"></i></a></td>
+                    <td><?= htmlspecialchars($turma['nome']); ?></td>
+                    <td><?= htmlspecialchars($turma['descricao']); ?></td>
+                    <td><a href="/editar-turma?u=<?= $turma['id']?>"><i class="fa fa-edit"></i></a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
             </table>
         </div>
 
-        <nav aria-label="Paginação de Usuários" style="margin-bottom: 1.2em;">
+        <nav aria-label="Paginação de Turmas" style="margin-bottom: 1.2em;">
             <ul class="pagination justify-content-center">
                 
                 <?php if ($pagina > 1): ?>
