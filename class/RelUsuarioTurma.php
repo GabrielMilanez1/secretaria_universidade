@@ -22,6 +22,12 @@ class RelUsuarioTurma
             return ['sucesso' => false, 'mensagem' => 'Nenhuma turma selecionada.'];
         }
 
+        try {
+            $id_usuario = Validators::validaId($id_usuario);
+        } catch (Exception $e) {
+            return ['sucesso' => false, 'mensagem' => 'Usuário inválido.'];
+        }
+
         $objusuario = new Usuario();
         $objturma = new Turma();
 
@@ -43,7 +49,17 @@ class RelUsuarioTurma
         $erro = false;
         foreach ($turmas_pra_associar as $turma) {
 
-            $turma = Validators::validaId($turma);
+            try {
+                $turma = Validators::validaId($turma);
+            } catch (Exception $e) {
+                $this->deletaAssociacoesPeloIdUsuario($id_usuario);
+
+                foreach ($backup_turmas as $turma_backup) {
+                    $this->criaAssociacao($id_usuario, $turma_backup, $id_usuario_responsavel);
+                }
+                
+                return ['sucesso' => false, 'mensagem' => 'Turma inválida.'];
+            }
 
             if (!in_array($turma, $turmas_disponiveis)) {
                 $this->deletaAssociacoesPeloIdUsuario($id_usuario);

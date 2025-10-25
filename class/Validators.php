@@ -85,13 +85,11 @@ Class Validators
   {
     $id_limpo = filter_var($id_cargo, FILTER_SANITIZE_NUMBER_INT);
 
-    if (filter_var($id_limpo, FILTER_VALIDATE_INT) === false || (int)$id_limpo <= 0) {
-        throw new \Exception('ID do cargo inválido. Deve ser um número inteiro positivo.');
-    }
+    $id_limpo = self::validaId($id_limpo);
 
     $cargos_disponiveis = Cargo::idsCargosDisponiveis();
     if (!in_array($id_limpo, $cargos_disponiveis)) {
-        throw new \Exception('ID inválido.');
+        throw new \Exception('ID inválido. (Não existe uma turma com esse ID)');
     }
     
     return (int)$id_limpo;
@@ -123,7 +121,11 @@ Class Validators
   {
     $id_limpo = filter_var($id_turma, FILTER_SANITIZE_NUMBER_INT);
 
-    return $id_limpo;
+    if (filter_var($id_limpo, FILTER_VALIDATE_INT) === false || (int)$id_limpo <= 0) {
+        throw new \Exception('ID inválido. Deve ser um número inteiro positivo.');
+    }
+
+    return (int)$id_limpo;
   }
   
 }

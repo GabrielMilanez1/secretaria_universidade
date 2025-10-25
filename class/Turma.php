@@ -29,7 +29,11 @@ class Turma
             DELETE FROM $this->tabela WHERE id = ?;
         SQL;
 
-        $id_turma = Validators::validaId($id_turma);
+        try {
+            $id_turma = Validators::validaId($id_turma);
+        } catch (Exception $e) {
+            return ['sucesso' => false, 'mensagem' => $e->getMessage()];
+        }
 
         $stmt = $db->getMysqliConnection()->prepare($query);
         $stmt->bind_param("i", $id_turma);
@@ -95,6 +99,8 @@ class Turma
 
         try {
             // Validações
+            $id_turma = Validators::validaId($id_turma);
+
             if (isset($dados_para_atualizar['nome']) && !empty($dados_para_atualizar['nome'])) {
                 $dados_para_atualizar['nome'] = Validators::validaNomeTurma($dados_para_atualizar['nome']);
             }
@@ -184,6 +190,12 @@ class Turma
 
     public function getById($id)
     {
+        try {
+            $id = Validators::validaId($id);
+        } catch (Exception $e) {
+            return false;
+        }
+
         $db = new MysqliClass();
         $query = <<<SQL
             SELECT * FROM `$this->tabela` WHERE `id` = '$id' LIMIT 1    

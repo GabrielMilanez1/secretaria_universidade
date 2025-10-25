@@ -29,7 +29,11 @@ class Usuario
             DELETE FROM $this->tabela WHERE id = ?;
         SQL;
 
-        $id_usuario = Validators::validaId($id_usuario);
+        try {
+            $id_usuario = Validators::validaId($id_usuario);
+        } catch (Exception $e) {
+            return ['sucesso' => false, 'mensagem' => $e->getMessage()];
+        }
 
         $stmt = $db->getMysqliConnection()->prepare($query);
         $stmt->bind_param("i", $id_usuario);
@@ -78,6 +82,8 @@ class Usuario
 
         try {
             // Validações
+            $id_usuario = Validators::validaId($id_usuario);
+
             if (isset($dados_para_atualizar['nome']) && !empty($dados_para_atualizar['nome'])) {
                 $dados_para_atualizar['nome'] = Validators::validaNome($dados_para_atualizar['nome']);
             }
@@ -188,6 +194,12 @@ class Usuario
 
     public function getById($id)
     {
+        try {
+            $id = Validators::validaId($id);
+        } catch (Exception $e) {
+            return false;
+        }
+
         $db = new MysqliClass();
         $query = <<<SQL
             SELECT * FROM `$this->tabela` WHERE `id` = '$id' LIMIT 1
