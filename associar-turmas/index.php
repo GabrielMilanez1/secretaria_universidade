@@ -89,7 +89,7 @@ $turmas_disponiveis = $objturma->getTurmas();
     <br>
 </div>
 
-<div class="container" style="display: flex; flex-direction: column; justify-content: center;">
+<div class="container" style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 1em;">
     <h2 style="margin-bottom: 1em;">Associar turmas ao Usuário: <?= htmlspecialchars($usuario['nome']); ?></h2>
 
     <form method="POST">
