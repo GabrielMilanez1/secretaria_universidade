@@ -21,8 +21,15 @@ Necessário configurar as próprias informações do servidor MySQL no arquivo "
 
 # Dump do MySQL
 O arquivo dump.sql possui todos os scripts pra criação do banco de dados e tabelas necessárias pra rodar o projeto, além de também inserir registros pra servirem como demonstração do sistema. 
-Dentre os registros a ser inseridos, também está o login de administrador que pode ser acessado com:
+Dentre os registros a ser inseridos, também esão o login de administrador que pode ser acessado com:
 
 Email - admin@admin.com
 <br>
 Senha - 123
+
+e o login de aluno, que pode ser acessado com:
+
+Email - aluno@aluno.com
+<br>
+Senha - 123
+

@@ -64,7 +64,7 @@ VALUES(1, 'Administrador', '2003-06-13', '12345678909', 'admin@admin.com', '202c
 
 /* Pra inserir alguns alunos de exemplo */
 INSERT INTO tb_usuarios (nome, data_nascimento, cpf, email, senha, id_cargo) VALUES
-('Ana Silva', '1985-05-15', '111.111.111-11', 'ana.silva@exemplo.com', 'e10adc3949ba59abbe56e057f20f883e', 2),
+('Gabriel Aluno da Silva', '2003-06-13', '111.111.111-11', 'aluno@aluno.com', '202cb962ac59075b964b07152d234b70', 2),
 ('Bruno Santos', '1990-10-22', '222.222.222-22', 'bruno.santos@exemplo.com', 'e10adc3949ba59abbe56e057f20f883e', 2),
 ('Carla Oliveira', '1978-01-30', '333.333.333-33', 'carla.oliveira@exemplo.com', 'e10adc3949ba59abbe56e057f20f883e', 2),
 ('Daniel Pereira', '2001-03-05', '444.444.444-44', 'daniel.pereira@exemplo.com', 'e10adc3949ba59abbe56e057f20f883e', 2),
